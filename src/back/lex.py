@@ -2,7 +2,8 @@
 import re
 
 def lex(string: str):
-    _tokens = re.split(r'(=|\+|-|\*|/|!|\(|\)|;|#| |,|"|\[|\])', string)
+    
+    _tokens = re.split(r'(=|\+|-|\*|/|!|\(|\)|;|#|,|"| |\[|\])', string)
 
     STRING = False
     LIST = False
@@ -15,7 +16,12 @@ def lex(string: str):
 
     for token in _tokens:
 
-        if token == '' or token == ' ':
+        if token == '':
+            continue
+
+        if token == ' ':
+            if STRING:
+                _STRING += token
             continue
 
         if token == '#' and not STRING:
@@ -63,6 +69,3 @@ def lex(string: str):
             tokens.append(token)
 
     return tokens
-
-
-print(lex('# ignora-me # let x is [111, 1111, "hello", "world"];'))
